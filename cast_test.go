@@ -35,6 +35,7 @@ func Test_createAndFillStruct_Fail(t *testing.T) {
 
 	// GIVEN
 	type myUnexportedField struct {
+		// nolint
 		field1 string `cfg:"{'name':'field_1','default':'value'}"`
 	}
 
@@ -230,7 +231,8 @@ func Test_castToPrimitive(t *testing.T) {
 func Test_isFieldExported(t *testing.T) {
 	// GIVEN
 	type my struct {
-		ExportedField   string
+		ExportedField string
+		// nolint
 		unExportedField string
 	}
 	reflectedType := reflect.TypeOf(my{})
@@ -384,7 +386,7 @@ func Test_handleYamlElementListInput(t *testing.T) {
 		Age  int
 	}
 
-	elements2 := []myStruct{myStruct{}, myStruct{}}
+	elements2 := []myStruct{{}, {}}
 
 	// WHEN
 	str1, err1 := handleYamlElementListInput(elements1, reflect.TypeOf([]myStruct{}))
