@@ -16,6 +16,13 @@ jobs:
 
       - name: Run the unit tests and check for race conditions
         run: make report.test
+      
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   golangci:
     name: lint
     runs-on: ubuntu-latest
