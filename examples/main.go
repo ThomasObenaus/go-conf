@@ -14,6 +14,7 @@ import (
 // TODO: Check if pointer fields are supported
 // TODO: Add support for shorthand flags
 // TODO: Think about required vs. optional (explicit vs implicit)
+// TODO: Rewrite using test examples
 
 type Cfg struct {
 	DryRun        bool           // this should be ignored since its not annotated, but it can be still read using on the usual way
