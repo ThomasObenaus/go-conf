@@ -13,6 +13,10 @@ test: sep gen-mocks ## Runs all unittests and generates a coverage report.
 	@echo "--> Run the unit-tests"
 	@go test ./ -covermode=count -coverprofile=coverage.out
 
+run.example: ## Runs the example app
+	@echo "--> Run the example app"
+	@go run ./examples
+
 cover-upload: sep ## Uploads the unittest coverage to coveralls (for this the GO_BASE_COVERALLS_REPO_TOKEN has to be set correctly).
 	# for this to get working you have to export the repo_token for your repo at coveralls.io
 	# i.e. export GO_BASE_COVERALLS_REPO_TOKEN=<your token>
