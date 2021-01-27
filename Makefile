@@ -1,3 +1,4 @@
+SHELL := /bin/bash
 .DEFAULT_GOAL := all
 
 all: test format lint finish
@@ -22,12 +23,7 @@ run.example: ## Runs the example app
 lint: sep ## Runs the linter to check for coding-style issues
 	@echo "--> Lint project"
 	@echo "!!!!golangci-lint has to be installed. See: https://github.com/golangci/golangci-lint#install"
-	@golangci-lint run --fast --enable gofmt
-
-report.lint: sep ## Runs the linter to check for coding-style issues and generates the report file used in the ci pipeline
-	@echo "--> Lint project + Reporting"
-	@echo "!!!!golangci-lint has to be installed. See: https://github.com/golangci/golangci-lint#install"
-	@golangci-lint run --fast --out-format checkstyle --enable gofmt | tee lint.out
+	@golangci-lint run --enable gofmt
 
 gen-mocks: sep ## Generates test doubles (mocks).
 	@echo "--> generate mocks (github.com/golang/mock/gomock is required for this)"
