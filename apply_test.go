@@ -195,10 +195,6 @@ func Test_applyConfig_Fail(t *testing.T) {
 	assert.Error(t, errWrongTypeSliceOfStructs)
 
 	// GIVEN - target is no pointer to a struct
-	type myTestConfig struct {
-		Field1 int `cfg:"{'name':'field-1'}"`
-	}
-
 	mockedProvider := mock_provider.NewMockProvider(mockCtrl)
 	myTestCfg := myTestConfigWrongTypeSliceOfStructs{}
 	ignoreAllCallsToLogger(mockedProvider)
