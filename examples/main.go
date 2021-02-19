@@ -7,7 +7,6 @@ import (
 	config "github.com/ThomasObenaus/go-conf"
 	"github.com/ThomasObenaus/go-conf/interfaces"
 
-	//"github.com/davecgh/go-spew/spew"
 	"github.com/rs/zerolog"
 )
 
@@ -63,7 +62,6 @@ func main() {
 	fmt.Println("")
 	fmt.Println("SUCCESS")
 	fmt.Printf("%v", parsedConfig)
-	//spew.Dump(parsedConfig)
 }
 
 var dryRun = config.NewEntry("dry-run", "If true, then sokar won't execute the planned scaling action. Only scaling\n"+
