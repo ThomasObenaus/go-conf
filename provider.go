@@ -50,7 +50,7 @@ func CfgFile(parameterName, shortParameterName string) ProviderOption {
 	}
 }
 
-// CfgFile specifies a default value
+// CustomConfigEntries allows to add config entries that are created manually via NewEntry(..)
 func CustomConfigEntries(customConfigEntries []Entry) ProviderOption {
 	return func(p *providerImpl) {
 		if p.configEntries == nil {
@@ -169,19 +169,9 @@ func (p *providerImpl) RegisterMappingFunc(name string, mFunc interfaces.Mapping
 func (p *providerImpl) Usage() string {
 	entriesAsString := make([]string, 0)
 
-	maxLen := 0
 	for _, entry := range p.configEntries {
 		entryDefinition := entryDefinitionAsString(entry)
-		if len(entryDefinition) > maxLen {
-			maxLen = len(entryDefinition)
-		}
-	}
-
-	for _, entry := range p.configEntries {
-		entryDefinition := entryDefinitionAsString(entry)
-		formatStr := fmt.Sprintf("%%-%ds", maxLen)
-		entryStr := fmt.Sprintf(formatStr, entryDefinition)
-		entriesAsString = append(entriesAsString, entryStr)
+		entriesAsString = append(entriesAsString, entryDefinition)
 
 		// default
 		defaultStr := "n/a"
