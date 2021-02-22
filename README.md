@@ -77,19 +77,19 @@ func main() {
 ### Features
 
 - Automatically populates a struct using values given via command line
-  - See [simple](examples/simple)
-  - See [primitive](examples/primitive)
+  - See [simple](examples/simple/)
+  - See [primitive](examples/primitive/)
 - Read config parameters from multiple sources like command line, environment variables and config files (yaml)
-  - See [multisource](examples/multisource)
-  - See [custom](examples/custom)
+  - See [multisource](examples/multisource/README.md)
+  - See [custom](examples/custom/)
 - Support of default values
 - Short hand parameters for command line flags
 - Print usage on command line
 - Custom mapping functions to support parsing of config parameters into complex structures and type conversion
-  - See [mapfun](examples/mapfun)
+  - See [mapfun](examples/mapfun/README.md)
 - Support of config parameter lists
 - Support of complex structs with multiple levels
-  - See [multilevel](examples/multilevel)
+  - See [multilevel](examples/multilevel/)
 
 ## License
 

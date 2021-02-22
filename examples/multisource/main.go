@@ -23,7 +23,7 @@ func main() {
 
 	os.Setenv("MY_APP_FROM_ENV", "env")
 	args := []string{
-		"--config-file=examples/multisource/config.yaml",
+		"--config-file-name=examples/multisource/config.yaml",
 		"--from-cli=cli",
 	}
 
@@ -38,6 +38,7 @@ func main() {
 		&cfg,
 		nameOfTheConfig,
 		prefixForEnvironmentVariables,
+		config.CfgFile("config-file-name", "f"), // Overwrites the default parameter (--config-file) for the config file
 	)
 	if err != nil {
 		panic(err)
