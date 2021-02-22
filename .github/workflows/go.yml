@@ -17,6 +17,9 @@ jobs:
       - name: Run the unit tests and check for race conditions
         run: make test.report
       
+      - name: Run the examples
+        run: make run.examples
+
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
