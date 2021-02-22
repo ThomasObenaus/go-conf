@@ -78,7 +78,9 @@ func main() {
 
 - Automatically populates a struct using values given via command line
   - See [simple](examples/simple)
+  - See [primitive](examples/primitive)
 - Read config parameters from multiple sources like command line, environment variables and config files (yaml)
+  - See [custom](examples/custom)
 - Support of default values
 - Short hand parameters for command line flags
 - Print usage on command line
