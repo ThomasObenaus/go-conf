@@ -3,6 +3,7 @@ module github.com/ThomasObenaus/go-conf
 go 1.15
 
 require (
+	github.com/davecgh/go-spew v1.1.1
 	github.com/golang/mock v1.4.4
 	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.20.0

@@ -10,15 +10,16 @@ help: ## Prints the help
 
 test: sep gen-mocks ## Runs all unit tests and generates a coverage report.
 	@echo "--> Run the unit-tests"
-	@set -o pipefail ; go test ./ -timeout 30s -race -covermode=atomic
+	@set -o pipefail ; go test $$(go list ./...) -timeout 30s -race -covermode=atomic
 
-report.test: sep ## Runs all unittests and generates a coverage- and a test-report.
+test.report: sep ## Runs all unittests and generates a coverage- and a test-report.
 	@echo "--> Run the unit-tests"	
-	@go test ./ -timeout 30s -race -covermode=atomic -coverprofile=coverage.out -json | tee test-report.out
+	@go test $$(go list ./...) -timeout 30s -race -covermode=atomic -coverprofile=coverage.out -json | tee test-report.out
 
-run.example: ## Runs the example app
-	@echo "--> Run the example app"
-	@go run ./examples
+run.examples: ## Runs the examples
+	@echo "--> Run the example apps"
+	@echo -e "---> Simple Example"
+	@go run ./examples/simple
 
 lint: sep ## Runs the linter to check for coding-style issues
 	@echo "--> Lint project"
