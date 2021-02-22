@@ -29,6 +29,9 @@ run.examples: ## Runs the examples
 	@echo ""
 	@echo "---> MappingFunc Example"
 	@go run ./examples/mapfun
+	@echo ""
+	@echo "---> Primitive Types Example"
+	@go run ./examples/primitive
 
 lint: sep ## Runs the linter to check for coding-style issues
 	@echo "--> Lint project"

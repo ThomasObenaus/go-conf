@@ -217,7 +217,7 @@ func Test_castToPrimitive(t *testing.T) {
 	// WHEN
 	castedInt, errInt := castToPrimitive(vInt, reflect.TypeOf(int(0)))
 	castedIntSlice, errIntSlice := castToPrimitive(vIntSlice, reflect.TypeOf([]int{}))
-	castedWrongType, errWrongType := castToPrimitive(vString, reflect.TypeOf(int(0)))
+	castedWrongType, errWrongType := castToPrimitive(vString, reflect.TypeOf(bool(false)))
 
 	// THEN
 	assert.NoError(t, errInt)
@@ -225,7 +225,7 @@ func Test_castToPrimitive(t *testing.T) {
 	assert.NoError(t, errIntSlice)
 	assert.Equal(t, []int{11, 22}, castedIntSlice)
 	assert.Error(t, errWrongType)
-	assert.Nil(t, castedWrongType)
+	assert.Equal(t, false, castedWrongType)
 }
 
 func Test_isFieldExported(t *testing.T) {

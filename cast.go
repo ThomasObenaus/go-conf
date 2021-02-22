@@ -43,10 +43,10 @@ func castSimple(rawValue interface{}, targetType reflect.Type) (interface{}, err
 		return cast.ToStringE(rawValue)
 	case reflect.TypeOf(bool(false)):
 		return cast.ToBoolE(rawValue)
-	case reflect.TypeOf(float64(0)):
-		return cast.ToFloat64E(rawValue)
 	case reflect.TypeOf(float32(0)):
 		return cast.ToFloat32E(rawValue)
+	case reflect.TypeOf(float64(0)):
+		return cast.ToFloat64E(rawValue)
 	case reflect.TypeOf(int(0)):
 		return cast.ToIntE(rawValue)
 	case reflect.TypeOf(int8(0)):
