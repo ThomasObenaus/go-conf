@@ -23,6 +23,9 @@ run.examples: ## Runs the examples
 	@echo ""
 	@echo "---> Readme Example"
 	@go run ./examples/readme
+	@echo ""
+	@echo "---> Multilevel Example"
+	@go run ./examples/multilevel
 
 lint: sep ## Runs the linter to check for coding-style issues
 	@echo "--> Lint project"

@@ -74,9 +74,20 @@ func main() {
 
 ```
 
+### Features
+
+- Read config parameters from multiple sources like command line, environment variables and config files (yaml)
+- Automatic population of a struct based on the values of the config parameters
+- Support of default values
+- Short hand parameters for command line flags
+- Print usage on command line
+- Custom mapping functions to support parsing of config parameters into complex structures
+- Support of config parameter lists
+
 ### Examples
 
 - [examples/simple](simple): Showcases the basic features of go-conf.
+- [examples/multilevel](multilevel): Showcases how to structure bigger configurations with multiple levels.
 
 ## License
 
