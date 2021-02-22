@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 .DEFAULT_GOAL := all
 
-all: test format lint finish
+all: test format lint run.examples finish
 
 # This target (taken from: https://gist.github.com/prwhite/8168133) is an easy way to print out a usage/ help of all make targets.
 # For all make targets the text after \#\# will be printed.
@@ -10,15 +10,34 @@ help: ## Prints the help
 
 test: sep gen-mocks ## Runs all unit tests and generates a coverage report.
 	@echo "--> Run the unit-tests"
-	@set -o pipefail ; go test ./ -timeout 30s -race -covermode=atomic
+	@set -o pipefail ; go test $$(go list ./...) -timeout 30s -race -covermode=atomic
 
-report.test: sep ## Runs all unittests and generates a coverage- and a test-report.
+test.report: sep ## Runs all unittests and generates a coverage- and a test-report.
 	@echo "--> Run the unit-tests"	
-	@go test ./ -timeout 30s -race -covermode=atomic -coverprofile=coverage.out -json | tee test-report.out
+	@go test $$(go list ./...) -timeout 30s -race -covermode=atomic -coverprofile=coverage.out -json | tee test-report.out
 
-run.example: ## Runs the example app
-	@echo "--> Run the example app"
-	@go run ./examples
+run.examples: ## Runs the examples
+	@echo "--> Run the example apps"
+	@echo "---> Simple Example"
+	@go run ./examples/simple
+	@echo ""
+	@echo "---> Readme Example"
+	@go run ./examples/readme
+	@echo ""
+	@echo "---> Multilevel Example"
+	@go run ./examples/multilevel
+	@echo ""
+	@echo "---> MappingFunc Example"
+	@go run ./examples/mapfun
+	@echo ""
+	@echo "---> Primitive Types Example"
+	@go run ./examples/primitive
+	@echo ""
+	@echo "---> Custom Config Entries Example"
+	@go run ./examples/custom
+	@echo ""
+	@echo "---> Multi Source Example"
+	@go run ./examples/multisource
 
 lint: sep ## Runs the linter to check for coding-style issues
 	@echo "--> Lint project"
