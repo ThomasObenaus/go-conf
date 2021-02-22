@@ -28,10 +28,48 @@ func castToPrimitive(rawValue interface{}, targetType reflect.Type) (interface{}
 		typeOfValue = reflect.TypeOf(rawValue)
 	}
 
-	if !typeOfValue.ConvertibleTo(targetType) {
-		return nil, fmt.Errorf("Can't convert %v to %v", typeOfValue, targetType)
+	isConvertible := typeOfValue.ConvertibleTo(targetType)
+	if isConvertible {
+		return reflect.ValueOf(rawValue).Convert(targetType).Interface(), nil
 	}
-	return reflect.ValueOf(rawValue).Convert(targetType).Interface(), nil
+
+	// last resort, do a simple cast
+	return castSimple(rawValue, targetType)
+}
+
+func castSimple(rawValue interface{}, targetType reflect.Type) (interface{}, error) {
+	switch targetType {
+	case reflect.TypeOf(string("")):
+		return cast.ToStringE(rawValue)
+	case reflect.TypeOf(bool(false)):
+		return cast.ToBoolE(rawValue)
+	case reflect.TypeOf(float64(0)):
+		return cast.ToFloat64E(rawValue)
+	case reflect.TypeOf(float32(0)):
+		return cast.ToFloat32E(rawValue)
+	case reflect.TypeOf(int(0)):
+		return cast.ToIntE(rawValue)
+	case reflect.TypeOf(int8(0)):
+		return cast.ToInt8E(rawValue)
+	case reflect.TypeOf(int16(0)):
+		return cast.ToInt16E(rawValue)
+	case reflect.TypeOf(int32(0)):
+		return cast.ToInt32E(rawValue)
+	case reflect.TypeOf(int64(0)):
+		return cast.ToInt64E(rawValue)
+	case reflect.TypeOf(uint(0)):
+		return cast.ToUintE(rawValue)
+	case reflect.TypeOf(uint8(0)):
+		return cast.ToUint8E(rawValue)
+	case reflect.TypeOf(uint16(0)):
+		return cast.ToUint16E(rawValue)
+	case reflect.TypeOf(uint32(0)):
+		return cast.ToUint32E(rawValue)
+	case reflect.TypeOf(uint64(0)):
+		return cast.ToUint64E(rawValue)
+	}
+
+	return nil, fmt.Errorf("Can't cast %T to %v (not yet supported).", rawValue, targetType)
 }
 
 // castToStruct supports casting of structs (also nested) to the given target type.
