@@ -18,8 +18,11 @@ test.report: sep ## Runs all unittests and generates a coverage- and a test-repo
 
 run.examples: ## Runs the examples
 	@echo "--> Run the example apps"
-	@echo -e "---> Simple Example"
+	@echo "---> Simple Example"
 	@go run ./examples/simple
+	@echo ""
+	@echo "---> Readme Example"
+	@go run ./examples/readme
 
 lint: sep ## Runs the linter to check for coding-style issues
 	@echo "--> Lint project"
