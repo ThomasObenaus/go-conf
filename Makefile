@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 .DEFAULT_GOAL := all
 
-all: test format lint finish
+all: test format lint run.examples finish
 
 # This target (taken from: https://gist.github.com/prwhite/8168133) is an easy way to print out a usage/ help of all make targets.
 # For all make targets the text after \#\# will be printed.
@@ -35,6 +35,9 @@ run.examples: ## Runs the examples
 	@echo ""
 	@echo "---> Custom Config Entries Example"
 	@go run ./examples/custom
+	@echo ""
+	@echo "---> Multi Source Example"
+	@go run ./examples/multisource
 
 lint: sep ## Runs the linter to check for coding-style issues
 	@echo "--> Lint project"
