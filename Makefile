@@ -26,6 +26,9 @@ run.examples: ## Runs the examples
 	@echo ""
 	@echo "---> Multilevel Example"
 	@go run ./examples/multilevel
+	@echo ""
+	@echo "---> MappingFunc Example"
+	@go run ./examples/mapfun
 
 lint: sep ## Runs the linter to check for coding-style issues
 	@echo "--> Lint project"
