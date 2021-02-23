@@ -362,3 +362,42 @@ func Test_extractConfigTagsOfStruct_NoFieldAnnotation(t *testing.T) {
 	assert.Equal(t, "field-1", entries[0].Name)
 	assert.True(t, entries[0].IsRequired())
 }
+
+func Test_hasAnnotatedFields(t *testing.T) {
+
+	// GIVEN
+	type fieldsNotAnnotated struct {
+		Field1 string
+		Field2 string
+		Field3 string
+	}
+
+	type fieldsAnnotated struct {
+		Field1 string
+		Field2 string `cfg:"{'name':'field-2'}"`
+		Field3 string
+	}
+
+	// WHEN
+	has1 := hasAnnotatedFields(reflect.TypeOf(fieldsNotAnnotated{}))
+	has2 := hasAnnotatedFields(reflect.TypeOf(fieldsAnnotated{}))
+	has3 := hasAnnotatedFields(reflect.TypeOf(nil))
+	has4 := hasAnnotatedFields(reflect.TypeOf(""))
+	has5 := hasAnnotatedFields(reflect.TypeOf(1))
+	i := 6
+	has6 := hasAnnotatedFields(reflect.TypeOf(i))
+	n := fieldsNotAnnotated{}
+	has7 := hasAnnotatedFields(reflect.TypeOf(&n))
+	m := fieldsAnnotated{}
+	has8 := hasAnnotatedFields(reflect.TypeOf(&m))
+
+	// THEN
+	assert.False(t, has1)
+	assert.True(t, has2)
+	assert.False(t, has3)
+	assert.False(t, has4)
+	assert.False(t, has5)
+	assert.False(t, has6)
+	assert.False(t, has7)
+	assert.True(t, has8)
+}

@@ -50,8 +50,8 @@ func applyConfig(provider interfaces.Provider, target interface{}, nameOfParentT
 		logPrefix := fmt.Sprintf("[Apply-(%s)]", fieldName)
 		provider.Log(interfaces.LogLevel_Debug, "%s field-type=%s field-value=%v\n", logPrefix, fieldType, fieldValue)
 
-		// handling of non primitives (stucts)
-		if !isPrimitive {
+		// handling of non primitives (stucts) that have annotated fields
+		if !isPrimitive && !cfgTag.isComplexTypeWithoutAnnotatedFields {
 			fieldValueIf := fieldValue.Addr().Interface()
 			if err := applyConfig(provider, fieldValueIf, nameOfParentType, cfgTag, mappingFuncs); err != nil {
 				return errors.Wrap(err, "Applying non primitive")
@@ -100,7 +100,7 @@ func applyConfig(provider interfaces.Provider, target interface{}, nameOfParentT
 			return fmt.Errorf("Mapping func '%s' not found", mappingFuncName)
 		}
 		if mappingFunc != nil {
-			provider.Log(interfaces.LogLevel_Debug, "%s apply mapping function '%s' (%s())", logPrefix, cfgTag.MapFunName, resolvedMappingFuncName)
+			provider.Log(interfaces.LogLevel_Debug, "%s apply mapping function '%s' (%s())\n", logPrefix, cfgTag.MapFunName, resolvedMappingFuncName)
 			mappedValue, err := mappingFunc(val, fieldType)
 			if err != nil {
 				return errors.Wrapf(err, "Applying mapping function '%s' (%s())", cfgTag.MapFunName, resolvedMappingFuncName)

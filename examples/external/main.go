@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"reflect"
 	"time"
 
 	config "github.com/ThomasObenaus/go-conf"
@@ -10,18 +11,18 @@ import (
 	"github.com/davecgh/go-spew/spew"
 )
 
-type PrimitiveTypes struct {
-	Field1 time.Time `cfg:"{'name':'field-1'}"`
+type ExternalTypes struct {
+	Field1 time.Time `cfg:"{'name':'field-1','mapfun':'strToTime'}"`
 }
 
 func main() {
 
 	args := []string{
-		"--field-1=22", //2021-02-22 12:34:00 +0000 UTC",
+		"--field-1=2021-02-22 12:34:00 +0000 UTC",
 	}
 
 	// 1. Create an instance of the config struct that should be filled
-	cfg := PrimitiveTypes{}
+	cfg := ExternalTypes{}
 
 	// 2. Create an instance of the config provider which is responsible to read the config
 	// from defaults, environment variables, config file or command line
@@ -34,6 +35,10 @@ func main() {
 		config.Logger(interfaces.DebugLogger),
 	)
 	if err != nil {
+		panic(err)
+	}
+
+	if err := provider.RegisterMappingFunc("strToTime", strToTime); err != nil {
 		panic(err)
 	}
 
@@ -50,4 +55,16 @@ func main() {
 	fmt.Println("##### Successfully read the config")
 	fmt.Println()
 	spew.Dump(cfg)
+}
+
+func strToTime(rawUntypedValue interface{}, targetType reflect.Type) (interface{}, error) {
+	asStr, ok := rawUntypedValue.(string)
+	if !ok {
+		return nil, fmt.Errorf("Expected a string. Type '%T' is not supported", rawUntypedValue)
+	}
+	t, err := time.Parse("2006-01-02 15:04:05 +0000 UTC", asStr)
+	if err != nil {
+		return nil, fmt.Errorf("Parse %s to time failed: %s", asStr, err.Error())
+	}
+	return t, nil
 }

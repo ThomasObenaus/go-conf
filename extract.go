@@ -21,10 +21,13 @@ type configTag struct {
 	MapFunName  string      `json:"mapfun,omitempty"`
 	ShortName   string      `json:"short,omitempty"`
 	desiredType reflect.Type
+
+	// isComplexTypeWithoutAnnotatedFields is true if this configTag represents a field whose type is a non primitive one and whose fields are not annotated with the cfg tag.
+	isComplexTypeWithoutAnnotatedFields bool
 }
 
 func (e configTag) String() string {
-	return fmt.Sprintf(`name:"%s",desc:"%s",default:%v (%T),required=%t`, e.Name, e.Description, e.Def, e.Def, e.IsRequired())
+	return fmt.Sprintf(`name:"%s",desc:"%s",default:%v (%T),required=%t,isComplexTypeWithoutAnnotatedFields=%t`, e.Name, e.Description, e.Def, e.Def, e.IsRequired(), e.isComplexTypeWithoutAnnotatedFields)
 }
 
 func (e configTag) IsRequired() bool {
@@ -165,7 +168,7 @@ func extractConfigTagsOfStruct(target interface{}, logger interfaces.LoggerFunc,
 	err := processAllConfigTagsOfStruct(target, logger, nameOfParentField, parent, func(fieldName string, isPrimitive bool, fieldType reflect.Type, fieldValue reflect.Value, cfgTag configTag) error {
 		logPrefix := fmt.Sprintf("[Extract-(%s)]", fieldName)
 
-		if !isPrimitive {
+		if !isPrimitive && !cfgTag.isComplexTypeWithoutAnnotatedFields {
 			fieldValueIf := fieldValue.Addr().Interface()
 			subEntries, err := extractConfigTagsOfStruct(fieldValueIf, logger, fieldName, cfgTag)
 			if err != nil {
@@ -173,16 +176,17 @@ func extractConfigTagsOfStruct(target interface{}, logger interfaces.LoggerFunc,
 			}
 			entries = append(entries, subEntries...)
 
-			// This is a non primitive type which is annotated with a cfg struct tag.
-			// But none of this types fields is annotated.
-			// This is usually the case for external types, which are types that can't be annotated.
-			// To allow the usage of external types, the entry itself is added.
-			if len(subEntries) == 0 {
-				entries = append(entries, cfgTag)
-				logger(interfaces.LogLevel_Info, "%s no fields are annotated hence a config entry (%v) for this field is added.\n", logPrefix, cfgTag)
-			}
-
 			logger(interfaces.LogLevel_Debug, "%s added %d configTags.\n", logPrefix, len(entries))
+			return nil
+		}
+
+		// This is a non primitive type which is annotated with a cfg struct tag.
+		// But none of this types fields is annotated.
+		// This is usually the case for external types, which are types that can't be annotated.
+		// To allow the usage of external types, the entry itself is added.
+		if !isPrimitive && cfgTag.isComplexTypeWithoutAnnotatedFields {
+			entries = append(entries, cfgTag)
+			logger(interfaces.LogLevel_Info, "%s complex type has no annotated fields. Hence a config entry for this field is added.\n", logPrefix)
 			return nil
 		}
 
@@ -232,6 +236,11 @@ func processAllConfigTagsOfStruct(target interface{}, logger interfaces.LoggerFu
 			return errors.Wrap(err, "Extracting config tag")
 		}
 
+		// This is a non primitive type whose fields are not annotated
+		if !isPrimitive && !hasAnnotatedFields(fType) {
+			cfgTag.isComplexTypeWithoutAnnotatedFields = true
+		}
+
 		// skip the field in case there is no config tag
 		if cfgTag == nil {
 			logger(interfaces.LogLevel_Info, "%s no tag found entry will be skipped.\n", logPrefix)
@@ -246,6 +255,32 @@ func processAllConfigTagsOfStruct(target interface{}, logger interfaces.LoggerFu
 		}
 	}
 	return nil
+}
+
+// hasAnnotatedFields returns true if the given complex type (struct) has at least one field with a cfg tag annotation.
+func hasAnnotatedFields(t reflect.Type) bool {
+	if t == nil {
+		return false
+	}
+
+	result := false
+
+	if t.Kind() == reflect.Ptr {
+		t = t.Elem()
+	}
+
+	if t.Kind() != reflect.Struct {
+		return false
+	}
+
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i)
+		_, hasCfgTag := getConfigTagDefinition(field)
+		if hasCfgTag {
+			return true
+		}
+	}
+	return result
 }
 
 // isOfPrimitiveType returns true if the given type is a primitive one (can be easily casted).
