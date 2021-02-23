@@ -98,6 +98,14 @@ func (e Entry) IsRequired() bool {
 	return e.defaultValue == nil
 }
 
+// EnvVarName returns the name of the environment variable for this entry.
+func (e Entry) EnvVarName(envPrefix string) string {
+	envVarName := fmt.Sprintf("%s_%s", envPrefix, e.Name())
+	envVarName = envVarReplacer.Replace(envVarName)
+	envVarName = strings.ToUpper(envVarName)
+	return envVarName
+}
+
 func checkViper(vp *viper.Viper, entry Entry) error {
 	if vp == nil {
 		return fmt.Errorf("Viper is nil")

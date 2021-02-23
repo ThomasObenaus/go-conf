@@ -173,6 +173,9 @@ func (p *providerImpl) Usage() string {
 		entryDefinition := entryDefinitionAsString(entry)
 		entriesAsString = append(entriesAsString, entryDefinition)
 
+		// name of env var
+		entriesAsString = append(entriesAsString, fmt.Sprintf("\tenv var: %s", entry.EnvVarName(p.envPrefix)))
+
 		// default
 		defaultStr := "n/a"
 		if entry.defaultValue != nil {

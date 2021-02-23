@@ -366,6 +366,7 @@ func ExampleNewConfigProvider_usage() {
 	fmt.Print(provider.Usage())
 	// Output:
 	//--field-2 (-) [required]
+	//	env var: MY_APP_FIELD_2
 	//	default: n/a
 	//	desc: This is field 2. It is a required field since no default values is defined.
 }
