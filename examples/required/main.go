@@ -5,7 +5,6 @@ import (
 	"os"
 
 	config "github.com/ThomasObenaus/go-conf"
-	"github.com/ThomasObenaus/go-conf/interfaces"
 )
 
 type MyFontConfig struct {
@@ -28,7 +27,6 @@ func main() {
 		&cfg,
 		nameOfTheConfig,
 		prefixForEnvironmentVariables,
-		config.Logger(interfaces.DebugLogger),
 	)
 	if err != nil {
 		panic(err)
