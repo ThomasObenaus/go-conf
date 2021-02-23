@@ -11,12 +11,15 @@ const (
 	LogLevel_Error LogLevel = "Error"
 )
 
+//nolint
+const formatString = "[%s] %s"
+
 type LoggerFunc func(lvl LogLevel, formatString string, a ...interface{})
 
 // DebugLogger logs all messages of level debug or above
 var DebugLogger = func(lvl LogLevel, formatString string, a ...interface{}) {
 	msg := fmt.Sprintf(formatString, a...)
-	fmt.Printf("[%s] %s", lvl, msg)
+	fmt.Printf(formatString, lvl, msg)
 }
 
 // InfoLogger logs all messages of level info or above
@@ -25,7 +28,7 @@ var InfoLogger = func(lvl LogLevel, formatString string, a ...interface{}) {
 		return
 	}
 	msg := fmt.Sprintf(formatString, a...)
-	fmt.Printf("[%s] %s", lvl, msg)
+	fmt.Printf(formatString, lvl, msg)
 }
 
 // WarnLogger logs all messages of level warn or above
@@ -34,7 +37,7 @@ var WarnLogger = func(lvl LogLevel, formatString string, a ...interface{}) {
 		return
 	}
 	msg := fmt.Sprintf(formatString, a...)
-	fmt.Printf("[%s] %s", lvl, msg)
+	fmt.Printf(formatString, lvl, msg)
 }
 
 // ErrorLogger logs all messages of level error
@@ -43,7 +46,7 @@ var ErrorLogger = func(lvl LogLevel, formatString string, a ...interface{}) {
 		return
 	}
 	msg := fmt.Sprintf(formatString, a...)
-	fmt.Printf("[%s] %s", lvl, msg)
+	fmt.Printf(formatString, lvl, msg)
 }
 
 var NoLogging = func(lvl LogLevel, formatString string, a ...interface{}) {

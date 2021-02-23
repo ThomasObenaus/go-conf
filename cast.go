@@ -186,11 +186,12 @@ func createAndFillStruct(targetTypeOfStruct reflect.Type, data map[string]interf
 			return reflect.Zero(targetTypeOfStruct), errors.Wrapf(err, "Parsing configTag '%s'", configTag)
 		}
 		val, ok := data[entry.Name]
-		if !ok {
-			if entry.IsRequired() {
-				return reflect.Zero(targetTypeOfStruct), fmt.Errorf("Missing value for required field (struct-field='%s',expected-key='%s')", fieldDeclaration.Name, entry.Name)
-			}
 
+		if !ok && entry.IsRequired() {
+			return reflect.Zero(targetTypeOfStruct), fmt.Errorf("Missing value for required field (struct-field='%s',expected-key='%s')", fieldDeclaration.Name, entry.Name)
+		}
+
+		if !ok {
 			// take the default value
 			val = entry.Def
 		}
