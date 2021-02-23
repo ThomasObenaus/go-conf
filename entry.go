@@ -147,8 +147,6 @@ func registerFlag(flagSet *pflag.FlagSet, entry Entry) error {
 		}
 	}
 
-	// TODO: Regard default value and set it when registering the flag
-
 	switch castedDefaultValue := valueDesiredType.(type) {
 	case string:
 		flagSet.StringP(entry.name, entry.flagShortName, castedDefaultValue, entry.usage)
