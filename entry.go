@@ -124,11 +124,19 @@ func registerFlag(flagSet *pflag.FlagSet, entry Entry) error {
 	valueDesiredType := entry.defaultValue
 
 	if valueDesiredType == nil {
-		valueType := reflect.New(entry.desiredType)
-		if valueType.Kind() != reflect.Ptr {
-			return fmt.Errorf("Failed deducing desired type for entry %v", entry)
+
+		// For struct types ensure that the input type is treated as string.
+		// Because it is not possible to register a flag for complex types such as structs.
+		if entry.desiredType.Kind() == reflect.Struct {
+			valueDesiredType = ""
+		} else {
+			// Use the desired type as type for registering the flag if its a primitive type.
+			valueType := reflect.New(entry.desiredType)
+			if valueType.Kind() != reflect.Ptr {
+				return fmt.Errorf("Failed deducing desired type for entry %v", entry)
+			}
+			valueDesiredType = valueType.Elem().Interface()
 		}
-		valueDesiredType = valueType.Elem().Interface()
 	}
 
 	// TODO: Regard default value and set it when registering the flag

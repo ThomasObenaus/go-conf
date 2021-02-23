@@ -172,6 +172,16 @@ func extractConfigTagsOfStruct(target interface{}, logger interfaces.LoggerFunc,
 				return errors.Wrap(err, "Extracting subentries")
 			}
 			entries = append(entries, subEntries...)
+
+			// This is a non primitive type which is annotated with a cfg struct tag.
+			// But none of this types fields is annotated.
+			// This is usually the case for external types, which are types that can't be annotated.
+			// To allow the usage of external types, the entry itself is added.
+			if len(subEntries) == 0 {
+				entries = append(entries, cfgTag)
+				logger(interfaces.LogLevel_Info, "%s no fields are annotated hence a config entry (%v) for this field is added.\n", logPrefix, cfgTag)
+			}
+
 			logger(interfaces.LogLevel_Debug, "%s added %d configTags.\n", logPrefix, len(entries))
 			return nil
 		}

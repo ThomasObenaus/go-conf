@@ -340,3 +340,25 @@ func Test_extractConfigTagsOfStruct(t *testing.T) {
 	require.NoError(t, errNoPointer)
 	require.Len(t, cfgTags, 5)
 }
+
+func Test_extractConfigTagsOfStruct_NoFieldAnnotation(t *testing.T) {
+
+	// GIVEN
+	type fieldsNotAnnotated struct {
+		Field1 string
+	}
+	type config struct {
+		SomeFieldStr fieldsNotAnnotated `cfg:"{'name':'field-1','desc':'A field of a complex type whose fields are NOT annotated'}"`
+	}
+
+	cfg := config{}
+
+	// WHEN
+	entries, err := extractConfigTagsOfStruct(&cfg, interfaces.NoLogging, "", configTag{})
+
+	// THEN
+	assert.NoError(t, err)
+	require.Len(t, entries, 1)
+	assert.Equal(t, "field-1", entries[0].Name)
+	assert.True(t, entries[0].IsRequired())
+}
