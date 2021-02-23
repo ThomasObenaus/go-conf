@@ -13,6 +13,7 @@ import (
 
 func ignoreAllCallsToLogger(mockedProvider *mock_provider.MockProvider) {
 	// just please the calls to the logger
+	mockedProvider.EXPECT().Log(gomock.Any(), gomock.Any(), gomock.Any()).AnyTimes()
 	mockedProvider.EXPECT().Log(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).AnyTimes()
 	mockedProvider.EXPECT().Log(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).AnyTimes()
 	mockedProvider.EXPECT().Log(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).AnyTimes()
@@ -235,4 +236,37 @@ func Test_applyConfig_slices(t *testing.T) {
 	assert.Len(t, myTestCfg.Field1, 3)
 	assert.Len(t, myTestCfg.Field2, 2)
 	assert.Len(t, myTestCfg.Field3, 3)
+}
+
+func Test_applyConfig_requiredAndOptional(t *testing.T) {
+	// GIVEN
+	type myTestConfig struct {
+		Field1 int `cfg:"{'name':'field-1','desc':'A required field'}"`
+		Field2 int `cfg:"{'name':'field-2','desc':'An optional field','default':11}"`
+	}
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	mockedProvider := mock_provider.NewMockProvider(mockCtrl)
+	myTestCfg := myTestConfig{}
+	ignoreAllCallsToLogger(mockedProvider)
+
+	// GIVEN - Missing required parameter
+	// the required field is not set --> an error is expected to be returned when applying the config
+	mockedProvider.EXPECT().IsSet("field-1").Return(false)
+	// WHEN
+	errMissingRequiredParameter := applyConfig(mockedProvider, &myTestCfg, "", configTag{}, map[string]interfaces.MappingFunc{})
+	// THEN
+	assert.Error(t, errMissingRequiredParameter)
+
+	// GIVEN - Missing optional parameter
+	// the required field is set --> no error expected
+	// the optional field is NOT set --> no error expected
+	mockedProvider.EXPECT().IsSet("field-1").Return(true)
+	mockedProvider.EXPECT().Get("field-1").Return(1234)
+	mockedProvider.EXPECT().IsSet("field-2").Return(false)
+	// WHEN
+	errMissingOptionalParameter := applyConfig(mockedProvider, &myTestCfg, "", configTag{}, map[string]interfaces.MappingFunc{})
+	// THEN
+	assert.NoError(t, errMissingOptionalParameter)
 }
