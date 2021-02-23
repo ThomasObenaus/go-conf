@@ -41,7 +41,9 @@ run.examples: ## Runs the examples
 	@echo ""
 	@echo "---> External Types Example"
 	@go run ./examples/external
-
+	@echo ""
+	@echo "---> Required Parameters Example"
+	@go run ./examples/required
 
 lint: sep ## Runs the linter to check for coding-style issues
 	@echo "--> Lint project"

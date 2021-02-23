@@ -60,6 +60,10 @@ func applyConfig(provider interfaces.Provider, target interface{}, nameOfParentT
 			return nil
 		}
 
+		if !provider.IsSet(cfgTag.Name) && cfgTag.IsRequired() {
+			return fmt.Errorf("Missing required config parameter %s (field: %s)", cfgTag.Name, fieldName)
+		}
+
 		if !provider.IsSet(cfgTag.Name) {
 			provider.Log(interfaces.LogLevel_Info, "%s parameter not provided, nothing will be applied\n", logPrefix)
 			return nil

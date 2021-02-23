@@ -83,6 +83,7 @@ func main() {
   - See [multisource](examples/multisource/)
   - See [custom](examples/custom/)
 - Support of default values
+  - See [required](examples/required/)
 - Short hand parameters for command line flags
 - Print usage on command line
 - Custom mapping functions to support parsing of config parameters into complex structures and type conversion
