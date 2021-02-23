@@ -7,7 +7,6 @@ import (
 	"time"
 
 	config "github.com/ThomasObenaus/go-conf"
-	"github.com/ThomasObenaus/go-conf/interfaces"
 	"github.com/davecgh/go-spew/spew"
 )
 
@@ -32,17 +31,17 @@ func main() {
 		&cfg,
 		nameOfTheConfig,
 		prefixForEnvironmentVariables,
-		config.Logger(interfaces.DebugLogger),
 	)
 	if err != nil {
 		panic(err)
 	}
 
+	// 3. Register the mapping function (string->time.Time)
 	if err := provider.RegisterMappingFunc("strToTime", strToTime); err != nil {
 		panic(err)
 	}
 
-	// 3. Start reading and fill the config parameters
+	// 4. Start reading and fill the config parameters
 	err = provider.ReadConfig(args)
 	if err != nil {
 		fmt.Println("##### Failed reading the config")
@@ -57,6 +56,7 @@ func main() {
 	spew.Dump(cfg)
 }
 
+// strToTime maps a string to a time.Time
 func strToTime(rawUntypedValue interface{}, targetType reflect.Type) (interface{}, error) {
 	asStr, ok := rawUntypedValue.(string)
 	if !ok {
