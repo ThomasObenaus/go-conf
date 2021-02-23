@@ -131,6 +131,14 @@ func castToSlice(rawValue interface{}, targetType reflect.Type) (interface{}, er
 
 // castToTargetType casts the given raw value to the given target type.
 func castToTargetType(rawUntypedValue interface{}, targetType reflect.Type) (interface{}, error) {
+
+	// Try to cast immediately if possible (if types match)
+	typeOfValue := reflect.TypeOf(rawUntypedValue)
+	isConvertible := typeOfValue.ConvertibleTo(targetType)
+	if isConvertible {
+		return reflect.ValueOf(rawUntypedValue).Convert(targetType).Interface(), nil
+	}
+
 	switch targetType.Kind() {
 	case reflect.Struct:
 		return castToStruct(rawUntypedValue, targetType)

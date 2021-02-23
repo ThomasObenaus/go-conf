@@ -16,6 +16,7 @@ A mapping function has to be
 ## Define a Mapping Function
 
 A mapping function is a function that maps a given input type into an output type.
+**For structs all mapping functions are called with a string as input parameter.**
 
 ```go
 // signature of a mapping function

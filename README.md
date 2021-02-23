@@ -90,6 +90,7 @@ func main() {
 - Support of config parameter lists
 - Support of complex structs with multiple levels
   - See [multilevel](examples/multilevel/)
+  - See [external](examples/external/)
 
 ## License
 

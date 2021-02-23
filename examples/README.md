@@ -6,3 +6,4 @@
 - [primitive](primitive/): Showcases some of the supported primitive types.
 - [custom](custom/): Showcases some how to register custom config entries and then manually fill the config struct.
 - [multisource](multisource/): Showcases reading of config parameters from multiple sources like file, defaults, environment variables and command line arguments.
+- [external](external/): Showcases how external non primitive types (types that can't be annotated) can be used for configuration.

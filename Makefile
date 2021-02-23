@@ -38,6 +38,10 @@ run.examples: ## Runs the examples
 	@echo ""
 	@echo "---> Multi Source Example"
 	@go run ./examples/multisource
+	@echo ""
+	@echo "---> External Types Example"
+	@go run ./examples/external
+
 
 lint: sep ## Runs the linter to check for coding-style issues
 	@echo "--> Lint project"
