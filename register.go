@@ -7,9 +7,11 @@ import (
 	"github.com/spf13/pflag"
 )
 
+// envVarReplacer is the replacer used to transform the name of an entry to the according environment variable name
+var envVarReplacer = strings.NewReplacer("-", "_", ".", "_")
+
 func (p *providerImpl) registerEnvParams() error {
-	replacer := strings.NewReplacer("-", "_", ".", "_")
-	p.Viper.SetEnvKeyReplacer(replacer)
+	p.Viper.SetEnvKeyReplacer(envVarReplacer)
 
 	// register also the config file parameter
 	if err := registerEnv(p.Viper, p.envPrefix, p.configFileEntry); err != nil {
