@@ -7,7 +7,7 @@
 ## Installation
 
 ```bash
-go get https://github.com/ThomasObenaus/go-conf
+go get github.com/ThomasObenaus/go-conf
 ```
 
 ## What is go-conf?
