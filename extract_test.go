@@ -405,12 +405,12 @@ func Test_hasAnnotatedFields(t *testing.T) {
 func Test_extractConfigTagsOfStruct_NonPrimitiveWithoutAnnotation(t *testing.T) {
 	// GIVEN
 	type nested struct {
-		FieldA string
+		Field3 string `cfg:"{'name':'field-3'}"` // will be ignored since the parent field is not annotated
 	}
 
 	type my struct {
-		Field1 string `cfg:"{'name':'field-1','desc':'a string field','default':'field-1 default'}"`
-		Field3 nested
+		Field1 string `cfg:"{'name':'field-1'}"`
+		Field2 nested
 	}
 	strct := my{}
 
@@ -419,5 +419,5 @@ func Test_extractConfigTagsOfStruct_NonPrimitiveWithoutAnnotation(t *testing.T) 
 
 	// THEN
 	require.NoError(t, errNoPointer)
-	require.Len(t, cfgTags, 5)
+	require.Len(t, cfgTags, 1)
 }

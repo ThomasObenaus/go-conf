@@ -236,15 +236,15 @@ func processAllConfigTagsOfStruct(target interface{}, logger interfaces.LoggerFu
 			return errors.Wrap(err, "Extracting config tag")
 		}
 
-		// This is a non primitive type whose fields are not annotated
-		if !isPrimitive && !hasAnnotatedFields(fType) {
-			cfgTag.isComplexTypeWithoutAnnotatedFields = true
-		}
-
 		// skip the field in case there is no config tag
 		if cfgTag == nil {
 			logger(interfaces.LogLevel_Info, "%s no tag found entry will be skipped.\n", logPrefix)
 			continue
+		}
+
+		// This is a non primitive type whose fields are not annotated
+		if !isPrimitive && !hasAnnotatedFields(fType) {
+			cfgTag.isComplexTypeWithoutAnnotatedFields = true
 		}
 
 		logger(interfaces.LogLevel_Debug, "%s parsed config entry=%v. Is primitive=%t.\n", logPrefix, cfgTag, isPrimitive)
