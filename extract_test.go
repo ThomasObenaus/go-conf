@@ -401,3 +401,23 @@ func Test_hasAnnotatedFields(t *testing.T) {
 	assert.False(t, has7)
 	assert.True(t, has8)
 }
+
+func Test_extractConfigTagsOfStruct_NonPrimitiveWithoutAnnotation(t *testing.T) {
+	// GIVEN
+	type nested struct {
+		Field3 string `cfg:"{'name':'field-3'}"` // will be ignored since the parent field is not annotated
+	}
+
+	type my struct {
+		Field1 string `cfg:"{'name':'field-1'}"`
+		Field2 nested
+	}
+	strct := my{}
+
+	// WHEN
+	cfgTags, errNoPointer := extractConfigTagsOfStruct(&strct, interfaces.NoLogging, "", configTag{})
+
+	// THEN
+	require.NoError(t, errNoPointer)
+	require.Len(t, cfgTags, 1)
+}
