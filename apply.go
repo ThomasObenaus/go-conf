@@ -43,12 +43,12 @@ func applyConfig(provider interfaces.Provider, target interface{}, nameOfParentT
 		return errors.Wrapf(err, "Applying config target=%v,nameOfParentType=%s,parent=%s,", target, nameOfParentType, parent)
 	}
 
-	provider.Log(interfaces.LogLevel_Debug, "[Apply-(%s)] structure-type=%v state of structure-type=%v\n", nameOfParentType, targetType, targetValue)
+	provider.Log(interfaces.LogLevelDebug, "[Apply-(%s)] structure-type=%v state of structure-type=%v\n", nameOfParentType, targetType, targetValue)
 
 	err = processAllConfigTagsOfStruct(target, provider.Log, nameOfParentType, parent, func(fieldName string, isPrimitive bool, fieldType reflect.Type, fieldValue reflect.Value, cfgTag configTag) error {
 
 		logPrefix := fmt.Sprintf("[Apply-(%s)]", fieldName)
-		provider.Log(interfaces.LogLevel_Debug, "%s field-type=%s field-value=%v\n", logPrefix, fieldType, fieldValue)
+		provider.Log(interfaces.LogLevelDebug, "%s field-type=%s field-value=%v\n", logPrefix, fieldType, fieldValue)
 
 		// handling of non primitives (stucts) that have annotated fields
 		applyConfigOfSubFields := !isPrimitive && !cfgTag.isComplexTypeWithoutAnnotatedFields
@@ -57,7 +57,7 @@ func applyConfig(provider interfaces.Provider, target interface{}, nameOfParentT
 			if err := applyConfig(provider, fieldValueIf, nameOfParentType, cfgTag, mappingFuncs); err != nil {
 				return errors.Wrap(err, "Applying non primitive")
 			}
-			provider.Log(interfaces.LogLevel_Debug, "%s applied non primitive %v\n", logPrefix, fieldValueIf)
+			provider.Log(interfaces.LogLevelDebug, "%s applied non primitive %v\n", logPrefix, fieldValueIf)
 			return nil
 		}
 
@@ -67,7 +67,7 @@ func applyConfig(provider interfaces.Provider, target interface{}, nameOfParentT
 		}
 
 		if !valueIsSet {
-			provider.Log(interfaces.LogLevel_Info, "%s parameter not provided, nothing will be applied\n", logPrefix)
+			provider.Log(interfaces.LogLevelInfo, "%s parameter not provided, nothing will be applied\n", logPrefix)
 			return nil
 		}
 
@@ -107,7 +107,7 @@ func applyConfig(provider interfaces.Provider, target interface{}, nameOfParentT
 		}
 
 		if mappingFunc != nil {
-			provider.Log(interfaces.LogLevel_Debug, "%s apply mapping function '%s' (%s())\n", logPrefix, cfgTag.MapFunName, resolvedMappingFuncName)
+			provider.Log(interfaces.LogLevelDebug, "%s apply mapping function '%s' (%s())\n", logPrefix, cfgTag.MapFunName, resolvedMappingFuncName)
 			mappedValue, err := mappingFunc(val, fieldType)
 			if err != nil {
 				return errors.Wrapf(err, "Applying mapping function '%s' (%s())", cfgTag.MapFunName, resolvedMappingFuncName)
@@ -126,7 +126,7 @@ func applyConfig(provider interfaces.Provider, target interface{}, nameOfParentT
 		castedToTargetType := reflect.ValueOf(castedToTargetTypeIf)
 
 		fieldValue.Set(castedToTargetType)
-		provider.Log(interfaces.LogLevel_Debug, "%s applied value '%v' (type=%v) to '%s' based on config '%s'\n", logPrefix, val, fieldType, fieldName, cfgTag.Name)
+		provider.Log(interfaces.LogLevelDebug, "%s applied value '%v' (type=%v) to '%s' based on config '%s'\n", logPrefix, val, fieldType, fieldName, cfgTag.Name)
 		return nil
 	})
 

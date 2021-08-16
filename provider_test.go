@@ -266,11 +266,11 @@ func ExampleNewConfigProvider_structs() {
 func ExampleNewConfigProvider_mappingFunc() {
 	type logLevel int8
 	const (
-		ll_trace logLevel = 0
-		ll_debug logLevel = 1
-		ll_info  logLevel = 2
-		ll_warn  logLevel = 3
-		ll_error logLevel = 4
+		llTrace logLevel = 0
+		llDebug logLevel = 1
+		llInfo  logLevel = 2
+		llWarn  logLevel = 3
+		llError logLevel = 4
 	)
 
 	// The configuration with the annotations needed in order to define how the config should be filled
@@ -307,15 +307,15 @@ func ExampleNewConfigProvider_mappingFunc() {
 
 		switch asStr {
 		case "trace":
-			return ll_trace, nil
+			return llTrace, nil
 		case "debug":
-			return ll_debug, nil
+			return llDebug, nil
 		case "info":
-			return ll_info, nil
+			return llInfo, nil
 		case "warn":
-			return ll_warn, nil
+			return llWarn, nil
 		case "error":
-			return ll_error, nil
+			return llError, nil
 		default:
 			return nil, fmt.Errorf("loglevel %s unknown/ not supported", asStr)
 		}

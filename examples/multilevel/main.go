@@ -8,6 +8,7 @@ import (
 	"github.com/davecgh/go-spew/spew"
 )
 
+// ThemeConfig configuration for a theme.
 // The different levels are separated by a dot from each another when be set via command line.
 // Hence
 //	type ThemeConfig struct {
@@ -24,18 +25,21 @@ type ThemeConfig struct {
 	Footer FormattedTextBox `cfg:"{'name':'footer','desc':'The footer'}"`
 }
 
+// FormattedTextBox used to configure the look of a text box
 type FormattedTextBox struct {
 	Font   Font   `cfg:"{'name':'font','desc':'Definition of the text box font.'}"`
 	Border Border `cfg:"{'name':'border','desc':'Definition of the text box border.'}"`
 	Value  string `cfg:"{'name':'value','desc':'The content of the text box','default':''}"`
 }
 
+// Font used to configure the look of a font
 type Font struct {
 	Color string `cfg:"{'name':'color','desc':'The value of the color as hexadecimal RGB string.','default':'#FFFFFF'}"`
 	Name  string `cfg:"{'name':'name','desc':'Name of the font to be used.','default':'arial'}"`
 	Size  int    `cfg:"{'name':'size','desc':'Size of the font.','default':12}"`
 }
 
+// Border used to configure the look of a border
 type Border struct {
 	Color string `cfg:"{'name':'color','desc':'The value of the color as hexadecimal RGB string.','default':'#FFFFFF'}"`
 	Width int    `cfg:"{'name':'width','desc':'Width of the border.','default':1}"`

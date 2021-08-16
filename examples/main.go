@@ -10,12 +10,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
-// TODO: Fail in case there are duplicate settings (names) configured
-// TODO: Check if pointer fields are supported
-// TODO: Add support for shorthand flags
-// TODO: Think about required vs. optional (explicit vs implicit)
-// TODO: Rewrite using test examples
-
+// Cfg the main configuration struct, which should be annotated with the cfg tag.
 type Cfg struct {
 	DryRun        bool           // this should be ignored since its not annotated, but it can be still read using on the usual way
 	Name          string         `cfg:"{'name':'name','desc':'the name of the config','short':'n'}"`
@@ -71,6 +66,7 @@ var configEntries = []config.Entry{
 	dryRun,
 }
 
+// New fills the config struct based on the given commandline arguments.
 func New(args []string, serviceAbbreviation string) (Cfg, error) {
 	cfg := Cfg{}
 

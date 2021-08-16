@@ -13,9 +13,13 @@ import (
 type LogLevel int8
 
 const (
+	// DebugLevel debug loglevel (contains messages of type debug, info, warn and error)
 	DebugLevel LogLevel = iota
+	// InfoLevel debug loglevel (contains messages of type info, warn and error)
 	InfoLevel
+	// WarnLevel debug loglevel (contains messages of type warn and error)
 	WarnLevel
+	// ErrorLevel debug loglevel (contains messages of type error)
 	ErrorLevel
 )
 

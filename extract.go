@@ -145,7 +145,7 @@ func CreateEntriesFromStruct(target interface{}, logger interfaces.LoggerFunc) (
 		// create and append the new config entry
 		entry := NewEntry(configTag.Name, configTag.Description, Default(configTag.Def), DesiredType(desiredType), ShortName(configTag.ShortName))
 		entries = append(entries, entry)
-		logger(interfaces.LogLevel_Info, "Added new config new entry=%v\n", entry)
+		logger(interfaces.LogLevelInfo, "Added new config new entry=%v\n", entry)
 	}
 
 	return entries, nil
@@ -163,7 +163,7 @@ func extractConfigTagsOfStruct(target interface{}, logger interfaces.LoggerFunc,
 
 	targetType := reflect.TypeOf(target)
 
-	logger(interfaces.LogLevel_Debug, "[Extract-(%s)] structure-type=%v definition=%v\n", nameOfParentField, targetType, parent)
+	logger(interfaces.LogLevelDebug, "[Extract-(%s)] structure-type=%v definition=%v\n", nameOfParentField, targetType, parent)
 
 	err := processAllConfigTagsOfStruct(target, logger, nameOfParentField, parent, func(fieldName string, isPrimitive bool, fieldType reflect.Type, fieldValue reflect.Value, cfgTag configTag) error {
 		logPrefix := fmt.Sprintf("[Extract-(%s)]", fieldName)
@@ -176,7 +176,7 @@ func extractConfigTagsOfStruct(target interface{}, logger interfaces.LoggerFunc,
 			}
 			entries = append(entries, subEntries...)
 
-			logger(interfaces.LogLevel_Debug, "%s added %d configTags.\n", logPrefix, len(entries))
+			logger(interfaces.LogLevelDebug, "%s added %d configTags.\n", logPrefix, len(entries))
 			return nil
 		}
 
@@ -186,12 +186,12 @@ func extractConfigTagsOfStruct(target interface{}, logger interfaces.LoggerFunc,
 		// To allow the usage of external types, the entry itself is added.
 		if !isPrimitive && cfgTag.isComplexTypeWithoutAnnotatedFields {
 			entries = append(entries, cfgTag)
-			logger(interfaces.LogLevel_Info, "%s complex type has no annotated fields. Hence a config entry for this field is added.\n", logPrefix)
+			logger(interfaces.LogLevelInfo, "%s complex type has no annotated fields. Hence a config entry for this field is added.\n", logPrefix)
 			return nil
 		}
 
 		entries = append(entries, cfgTag)
-		logger(interfaces.LogLevel_Debug, "%s added configTag entry=%v.\n", logPrefix, cfgTag)
+		logger(interfaces.LogLevelDebug, "%s added configTag entry=%v.\n", logPrefix, cfgTag)
 
 		return nil
 	})
@@ -229,7 +229,7 @@ func processAllConfigTagsOfStruct(target interface{}, logger interfaces.LoggerFu
 
 		fieldName := fullFieldName(nameOfParentField, field.Name)
 		logPrefix := fmt.Sprintf("[Process-(%s)]", fieldName)
-		logger(interfaces.LogLevel_Debug, "%s field-type=%s\n", logPrefix, fType)
+		logger(interfaces.LogLevelDebug, "%s field-type=%s\n", logPrefix, fType)
 
 		isPrimitive, cfgTag, err := extractConfigTagFromStructField(field, parent)
 		if err != nil {
@@ -238,7 +238,7 @@ func processAllConfigTagsOfStruct(target interface{}, logger interfaces.LoggerFu
 
 		// skip the field in case there is no config tag
 		if cfgTag == nil {
-			logger(interfaces.LogLevel_Info, "%s no tag found entry will be skipped.\n", logPrefix)
+			logger(interfaces.LogLevelInfo, "%s no tag found entry will be skipped.\n", logPrefix)
 			continue
 		}
 
@@ -247,7 +247,7 @@ func processAllConfigTagsOfStruct(target interface{}, logger interfaces.LoggerFu
 			cfgTag.isComplexTypeWithoutAnnotatedFields = true
 		}
 
-		logger(interfaces.LogLevel_Debug, "%s parsed config entry=%v. Is primitive=%t.\n", logPrefix, cfgTag, isPrimitive)
+		logger(interfaces.LogLevelDebug, "%s parsed config entry=%v. Is primitive=%t.\n", logPrefix, cfgTag, isPrimitive)
 
 		err = handleConfigTagFun(fieldName, isPrimitive, fType, fieldValue, *cfgTag)
 		if err != nil {

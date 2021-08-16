@@ -8,6 +8,7 @@ import (
 	"github.com/davecgh/go-spew/spew"
 )
 
+// MyConfig Define the config struct and annotate it with the cfg tag.
 type MyConfig struct {
 	// --default-only not set in file, environment and cli --> will use the default value
 	DefaultOnly string `cfg:"{'name':'default-only','default':'Default'}"`

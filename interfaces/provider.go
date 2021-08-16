@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// Provider consists of functions needed to interact with a configuration such as reading the config, register mapping functions and obtaining read values.
 type Provider interface {
 	/*
 		RegisterMappingFunc used to register a function that will map the value and type provided as command line parameter or default value.
@@ -68,11 +69,9 @@ type Provider interface {
 	Usage() string
 }
 
-/*
-	MappingFunc type that specifies a mapping function.
-
-	rawUntypedValue - the incoming value
-
-	targetType - the type the returned result should have
-*/
+// MappingFunc type that specifies a mapping function.
+//
+// rawUntypedValue - the incoming value
+//
+// targetType - the type the returned result should have
 type MappingFunc func(rawUntypedValue interface{}, targetType reflect.Type) (interface{}, error)

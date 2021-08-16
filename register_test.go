@@ -78,7 +78,7 @@ func Test_RegisterAndParseFlags_ShouldFail(t *testing.T) {
 	entries = append(entries, NewEntry("test1", "usage"))
 	provider, err := NewProvider(entries, "configName", "envPrefix")
 	require.NoError(t, err)
-	args := []string{"--unkown-param=A"}
+	args := []string{"--unknown-param=A"}
 	pImpl := toProviderImpl(t, provider)
 
 	// WHEN
