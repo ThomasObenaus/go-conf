@@ -8,6 +8,7 @@ import (
 	"github.com/davecgh/go-spew/spew"
 )
 
+// MyConfig Define the config struct and annotate it with the cfg tag.
 type MyConfig struct {
 	Field1 string `cfg:"{'name':'field-1'}"`
 	Field2 bool   // not annotated, since it is filled manually

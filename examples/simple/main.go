@@ -8,6 +8,8 @@ import (
 	"github.com/davecgh/go-spew/spew"
 )
 
+// MyFontConfig an example configuration.
+//
 // Just a struct with the desired config parameters has to be defined.
 // Each field has to be annotated with the cfg struct tag
 //	`cfg:{'name':'<name of the parameter>','desc':'<description>'}`

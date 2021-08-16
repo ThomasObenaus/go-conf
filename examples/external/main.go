@@ -10,6 +10,7 @@ import (
 	"github.com/davecgh/go-spew/spew"
 )
 
+// ExternalTypes Define the config struct and annotate it with the cfg tag.
 type ExternalTypes struct {
 	Field1 time.Time `cfg:"{'name':'field-1','mapfun':'strToTime'}"`
 }

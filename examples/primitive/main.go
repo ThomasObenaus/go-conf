@@ -9,6 +9,7 @@ import (
 	"github.com/davecgh/go-spew/spew"
 )
 
+// PrimitiveTypes Define the config struct and annotate it with the cfg tag.
 type PrimitiveTypes struct {
 	Field1 string        `cfg:"{'name':'field-1'}"`
 	Field2 int           `cfg:"{'name':'field-2'}"`

@@ -81,7 +81,7 @@ func NewProvider(configEntries []Entry, configName, envPrefix string, options ..
 		return nil, err
 	}
 
-	provider.Log(interfaces.LogLevel_Warn, "You are using the old, deprecated config interface 'NewProvider' please use 'NewConfigProvider' instead.")
+	provider.Log(interfaces.LogLevelWarn, "You are using the old, deprecated config interface 'NewProvider' please use 'NewConfigProvider' instead.")
 	return provider, nil
 }
 
@@ -133,7 +133,7 @@ func NewConfigProvider(target interface{}, configName, envPrefix string, options
 		}
 		provider.configEntries = append(provider.configEntries, configEntries...)
 	} else {
-		provider.logger(interfaces.LogLevel_Info, "No target given. Hence the config is not automatically processed and applied.")
+		provider.logger(interfaces.LogLevelInfo, "No target given. Hence the config is not automatically processed and applied.")
 	}
 
 	return provider, nil
@@ -158,7 +158,7 @@ func (p *providerImpl) RegisterMappingFunc(name string, mFunc interfaces.Mapping
 	}
 
 	if old, ok := p.mappingFuncRegistry[name]; ok {
-		p.logger(interfaces.LogLevel_Warn, "Overwriting mapping function '%v' with '%v' because both were registered with the same name '%s'", old, mFunc, name)
+		p.logger(interfaces.LogLevelWarn, "Overwriting mapping function '%v' with '%v' because both were registered with the same name '%s'", old, mFunc, name)
 	}
 
 	p.mappingFuncRegistry[name] = mFunc

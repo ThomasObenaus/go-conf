@@ -6,7 +6,7 @@ import (
 	config "github.com/ThomasObenaus/go-conf"
 )
 
-// Define the config struct and annotate it with the cfg tag.
+// MyFontConfig Define the config struct and annotate it with the cfg tag.
 type MyFontConfig struct {
 	Color string `cfg:"{'name':'color','desc':'The value of the color as hexadecimal RGB string.','default':'#FFFFFF'}"`
 	Name  string `cfg:"{'name':'name','desc':'Name of the font to be used.'}"`
