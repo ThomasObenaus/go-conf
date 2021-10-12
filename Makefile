@@ -52,8 +52,7 @@ lint: sep ## Runs the linter to check for coding-style issues
 
 gen-mocks: sep ## Generates test doubles (mocks).
 	@echo "--> generate mocks (github.com/golang/mock/gomock is required for this)"
-	@go get github.com/golang/mock/gomock
-	@go get github.com/golang/mock/mockgen
+	@go install github.com/golang/mock/mockgen@latest
 	@mockgen -source=interfaces/provider.go -destination test/mocks/mock_provider.go
 
 format: ## Formats the code using gofmt
