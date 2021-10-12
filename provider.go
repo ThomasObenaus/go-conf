@@ -119,11 +119,10 @@ func NewConfigProvider(target interface{}, configName, envPrefix string, options
 		return nil, fmt.Errorf("The Logger set via config.Logger must not be nil")
 	}
 
-	// Enable casting to type based on given default values
-	// this ensures that viper.Get() returns the casted instance instead of the plain value.
-	// That helps for example when a configuration is of type time.Duration.
-	// Usually viper.Get() would return a string but now it returns a time.Duration
-	provider.Viper.SetTypeByDefaultValue(true)
+	// Ensure that never a type is casted based on its default value.
+	// This ensures that viper.Get() returns always a value, even if its sth. complex such as a list of objects.
+	// That helps for example when a complex configuration is read from yaml.
+	provider.Viper.SetTypeByDefaultValue(false)
 
 	// For backwards compatibility we also allow to provide no target (this will be the case if the NewProvider function is used)
 	if provider.configTarget != nil {
