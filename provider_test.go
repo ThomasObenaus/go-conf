@@ -106,6 +106,55 @@ func Test_RegisterMappingFunc(t *testing.T) {
 	assert.Error(t, err3)
 }
 
+func Test_Duration(t *testing.T) {
+	// GIVEN
+	type myCfg struct {
+		Field1 time.Duration `cfg:"{'name':'field-1','desc':'This is field 1'}"`
+	}
+	cfg := myCfg{}
+	provider, err := NewConfigProvider(&cfg, "MyConfig", "MY_APP")
+	require.NoError(t, err)
+
+	args := []string{
+		"--field-1=12h",
+	}
+
+	// WHEN
+	err = provider.ReadConfig(args)
+	require.NoError(t, err)
+
+	// THEN
+	dur := provider.GetDuration("field-1")
+	assert.Equal(t, time.Hour*12, dur)
+}
+
+func Test_Things(t *testing.T) {
+	// GIVEN
+	entry := NewEntry("things", "A list of things [{'user':'user1','age':25},{'user':'user2','age':55}]. The user has to be unique.", Default(""))
+	type myCfg struct {
+	}
+
+	cfg := myCfg{}
+	provider, err := NewConfigProvider(&cfg, "MyConfig", "MY_APP", CustomConfigEntries([]Entry{entry}))
+	require.NoError(t, err)
+
+	args := []string{
+		"--config-file=test/data/things.yaml",
+	}
+
+	// WHEN
+	err = provider.ReadConfig(args)
+	require.NoError(t, err)
+
+	// THEN
+	things := provider.Get("things")
+	assert.NotEmpty(t, things)
+	assert.Equal(t, []interface{}{
+		map[interface{}]interface{}{"age": 25, "user": "user1"},
+		map[interface{}]interface{}{"age": 55, "user": "user2"},
+	}, things)
+}
+
 func ExampleNewProvider() {
 	var configEntries []Entry
 
