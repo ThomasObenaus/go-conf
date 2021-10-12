@@ -1,0 +1,5 @@
+things: 
+  - user: user1
+    age: 25
+  - user: user2
+    age: 55
