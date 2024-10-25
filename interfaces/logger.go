@@ -16,7 +16,7 @@ const (
 	LogLevelError LogLevel = "Error"
 )
 
-//nolint
+// nolint
 const formatString = "[%s] %s"
 
 // LoggerFunc is a function type that is called whenever the library wants to log a message. This type can be implemented to integrate your custom logging system.

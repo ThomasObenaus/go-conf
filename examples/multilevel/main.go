@@ -11,6 +11,7 @@ import (
 // ThemeConfig configuration for a theme.
 // The different levels are separated by a dot from each another when be set via command line.
 // Hence
+//
 //	type ThemeConfig struct {
 //		Header FormattedTextBox `cfg:"{'name':'header','desc':'The heading'}"`
 //	}
@@ -18,7 +19,9 @@ import (
 //	type FormattedTextBox struct {
 //		Value string `cfg:"{'name':'value','desc':'The content of the text box','default':''}"`
 //	}
+//
 // can be set by
+//
 //	--header.value="hi there"
 type ThemeConfig struct {
 	Header FormattedTextBox `cfg:"{'name':'header','desc':'The heading'}"`

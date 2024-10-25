@@ -163,7 +163,8 @@ func getConfigTagDefinition(fieldDeclaration reflect.StructField) (string, bool)
 //	}
 //
 // the data map should contain an entry with name 'field_1'
-// 	data := map[string]interface{}{"field_1":"a value"}
+//
+//	data := map[string]interface{}{"field_1":"a value"}
 func createAndFillStruct(targetTypeOfStruct reflect.Type, data map[string]interface{}) (reflect.Value, error) {
 	if targetTypeOfStruct.Kind() != reflect.Struct {
 		return reflect.Zero(targetTypeOfStruct), fmt.Errorf("The target type must be a struct")
