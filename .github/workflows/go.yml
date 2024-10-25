@@ -5,6 +5,9 @@ on:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
+  pull_request_target:
+    branches:
+      - main
 jobs:
   build:
     name: Build
