@@ -27,7 +27,7 @@ The aim is to **write as less code as possible**:
 - No need to write code to integrate multiple libraries that support reading a configuration from file/ commandline or the environment.
 - No need to code to take the values from that library to fill it into the config struct you want to use in your app anyway.
 
-Instead one just has to define the config structure and annotates it with struct tags.
+Instead, one just has to define the config structure and annotates it with struct tags.
 
 ```go
 package main
@@ -38,7 +38,7 @@ import (
     config "github.com/ThomasObenaus/go-conf"
 )
 
-// Define the config struct and annotate it with the cfg tag.
+// MyFontConfig defines the config struct and annotates it with the cfg tag.
 type MyFontConfig struct {
     Color string `cfg:"{'name':'color','desc':'The value of the color as hexadecimal RGB string.','default':'#FFFFFF'}"`
     Name  string `cfg:"{'name':'name','desc':'Name of the font to be used.'}"`
@@ -51,7 +51,7 @@ func main() {
     args := []string{
         // color not set  --> default value will be used "--color=#ff00ff",
         "--name=Arial",
-        "-s=12", // use -s (short hand version) instead of --size
+        "-s=12", // use -s (shorthand version) instead of --size
     }
 
     // 1. Create an instance of the config struct that should be filled
@@ -68,7 +68,7 @@ func main() {
         panic(err)
     }
 
-    // 4. Thats it! Now the config can be used.
+    // 4. That's it! Now the config can be used.
     fmt.Printf("FontConfig: color=%s, name=%s, size=%d\n", cfg.Color, cfg.Name, cfg.Size)
 }
 
@@ -84,7 +84,7 @@ func main() {
   - See [custom](examples/custom/)
 - Support of default values
   - See [required](examples/required/)
-- Short hand parameters for command line flags
+- Shorthand parameters for command line flags
 - Print usage on command line
 - Custom mapping functions to support parsing of config parameters into complex structures and type conversion
   - See [mapfun](examples/mapfun/)
