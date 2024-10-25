@@ -222,7 +222,9 @@ func registerEnv(vp *viper.Viper, envPrefix string, entry Entry) error {
 }
 
 // sliceOfMapStringToInterfaceFlag is a struct that can be used to represent a flag of type
+//
 //	[]map[string]interface{}
+//
 // That is a slice of arbitrary structs.
 type sliceOfMapStringToInterfaceFlag struct {
 	// used to be returned in the String method. Its better to return the value as

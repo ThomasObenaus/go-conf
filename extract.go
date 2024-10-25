@@ -13,7 +13,7 @@ import (
 // configTag represents the definition for a config read from the type tag.
 // A config tag on a type is expected to be defined as:
 //
-// 	`cfg:"{'name':'<name of the config>','desc':'<description>','default':<default value>,'short':'<shorthand name for the flag>','mapfun':<name of the mapping function>}"`
+//	`cfg:"{'name':'<name of the config>','desc':'<description>','default':<default value>,'short':'<shorthand name for the flag>','mapfun':<name of the mapping function>}"`
 type configTag struct {
 	Name        string      `json:"name,omitempty"`
 	Description string      `json:"desc,omitempty"`
@@ -39,7 +39,9 @@ func (e configTag) HasMapfunc() bool {
 }
 
 // parseConfigTagDefinition parses a definition like
-// 	`cfg:"{'name':'<name of the config>','desc':'<description>','default':<default value>,'mapfun':<name of the mapping function>}"`
+//
+//	`cfg:"{'name':'<name of the config>','desc':'<description>','default':<default value>,'mapfun':<name of the mapping function>}"`
+//
 // to a configTag
 func parseConfigTagDefinition(configTagStr string, typeOfEntry reflect.Type, nameOfParent string) (configTag, error) {
 	configTagStr = strings.TrimSpace(configTagStr)
@@ -117,15 +119,21 @@ func extractConfigTagFromStructField(field reflect.StructField, parent configTag
 // CreateEntriesFromStruct creates Entries based on the annotations provided at the given target struct.
 //
 // Only fields with annotations of the form
+//
 //	`cfg:"{'name':<name>,'desc':<description>,'default':<default value>}"`
+//
 // will be regarded.
 //
 // For example for the struct below
-// 	type Cfg struct {
+//
+//	type Cfg struct {
 //		Name string `cfg:"{'name':'name','desc':'the name of the config','default':'the name'}"`
 //	}
+//
 // A config entry
+//
 //	e := NewEntry("name","the name of the config",Default("the name"))
+//
 // will be created.
 func CreateEntriesFromStruct(target interface{}, logger interfaces.LoggerFunc) ([]Entry, error) {
 

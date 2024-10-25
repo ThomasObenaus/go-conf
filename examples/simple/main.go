@@ -12,7 +12,9 @@ import (
 //
 // Just a struct with the desired config parameters has to be defined.
 // Each field has to be annotated with the cfg struct tag
+//
 //	`cfg:{'name':'<name of the parameter>','desc':'<description>'}`
+//
 // The tag has to be specified as json structure using single quotes.
 // Mandatory fields are 'name' and 'desc'.
 type MyFontConfig struct {

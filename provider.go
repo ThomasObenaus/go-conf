@@ -89,7 +89,9 @@ func NewProvider(configEntries []Entry, configName, envPrefix string, options ..
 // on the given entries. This config provider automatically generates the needed config entries and fills the given config target
 // based on the annotations on this struct.
 // In case custom config entries should be used beside the annotations on the struct one can define them via
+//
 //	CustomConfigEntries(customEntries)`
+//
 // e.g.
 //
 //	customEntries:=[]Entry{
