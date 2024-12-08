@@ -228,7 +228,7 @@ func Test_extractConfigTagsOfStruct_Required(t *testing.T) {
 
 	// GIVEN
 	type primitives struct {
-		SomeFielOptional  string `cfg:"{'name':'field-str','desc':'a string field','default':'default value'}"`
+		SomeFieldOptional string `cfg:"{'name':'field-str','desc':'a string field','default':'default value'}"`
 		SomeFieldRequired string `cfg:"{'name':'field-str','desc':'a string field'}"`
 	}
 	prims := primitives{}
@@ -270,7 +270,7 @@ func Test_processAllConfigTagsOfStruct(t *testing.T) {
 	// GIVEN
 	type primitives struct {
 		NoConfigTag       string
-		SomeFielOptional  string `cfg:"{'name':'field-1','desc':'a string field','default':'default value'}"`
+		SomeFieldOptional string `cfg:"{'name':'field-1','desc':'a string field','default':'default value'}"`
 		SomeFieldRequired string `cfg:"{'name':'field-2','desc':'a string field'}"`
 	}
 	prims := primitives{}

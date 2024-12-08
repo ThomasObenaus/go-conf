@@ -36,6 +36,6 @@ func main() {
 		panic(err)
 	}
 
-	// 4. Thats it! Now the config can be used.
+	// 4. That's it! Now the config can be used.
 	fmt.Printf("FontConfig: color=%s, name=%s, size=%d\n", cfg.Color, cfg.Name, cfg.Size)
 }

@@ -154,7 +154,7 @@ func getConfigTagDefinition(fieldDeclaration reflect.StructField) (string, bool)
 }
 
 // createAndFillStruct creates a struct based on the given type and fills its fields based on the given data.
-// For being able to fill the struct the given datas keys have to match the config tags that are defined on the target type.
+// For being able to fill the struct the given data keys have to match the config tags that are defined on the target type.
 //
 // e.g. for type
 //
