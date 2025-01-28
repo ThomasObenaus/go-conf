@@ -10,7 +10,7 @@ const (
 	LogLevelDebug LogLevel = "Debug"
 	// LogLevelInfo info loglevel (contains messages of type info, warn and error)
 	LogLevelInfo LogLevel = "Info"
-	// LogLevelWarn waring loglevel (contains messages of type warn and error)
+	// LogLevelWarn warning loglevel (contains messages of type warn and error)
 	LogLevelWarn LogLevel = "Warn"
 	// LogLevelError error loglevel (contains messages of type error)
 	LogLevelError LogLevel = "Error"

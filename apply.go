@@ -50,7 +50,7 @@ func applyConfig(provider interfaces.Provider, target interface{}, nameOfParentT
 		logPrefix := fmt.Sprintf("[Apply-(%s)]", fieldName)
 		provider.Log(interfaces.LogLevelDebug, "%s field-type=%s field-value=%v\n", logPrefix, fieldType, fieldValue)
 
-		// handling of non primitives (stucts) that have annotated fields
+		// handling of non primitives (structs) that have annotated fields
 		applyConfigOfSubFields := !isPrimitive && !cfgTag.isComplexTypeWithoutAnnotatedFields
 		if applyConfigOfSubFields {
 			fieldValueIf := fieldValue.Addr().Interface()
@@ -77,7 +77,7 @@ func applyConfig(provider interfaces.Provider, target interface{}, nameOfParentT
 
 		valueFromViper := provider.Get(cfgTag.Name)
 
-		// Handle the case that the values are provied in a []interface{}. This is the case the data comes from yaml.
+		// Handle the case that the values are provided in a []interface{}. This is the case the data comes from yaml.
 		// There lists are treated as []interface{} (which then can be []map[string]interface{}, []map[string]string, ...)
 		valueFromViper, err := handleYamlElementListInput(valueFromViper, fieldType)
 		if err != nil {
